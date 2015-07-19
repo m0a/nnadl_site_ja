@@ -1647,7 +1647,10 @@ to solve such minimization problems.  Then we'll come back to the
 specific function we want to minimize for neural networks.
 -->
 
-</p><p>Okay, let's suppose we're trying to minimize some function, $C(v)$.
+</p><p>
+さて、我々はある関数$C(v)$を最小化しようとしていると仮定してみましょう。$v = v_1,v_2, \ldots$のような、複数の変数をもち実数を返す関数です。これは任意の関数であることを強調するために、$w$と$b$を$v$だけの表記に交換したことに注意してください。具体的には、それ以上ニューラルネットワークの文脈では考えていません。$C(v)$をイメージするために、$C$をちょうど2つの変数の関数として最小化し、変数を$v_1$と$v_2$と呼ぶことにします:</p><p><center><img src="images/valley.png" width="542px"></center></p><p>私たちがしたいことは、$C$がその大域的最小を達成する箇所を見つけることです。さて、もちろん、上記の関数プロットて、我々はグラフを見れば最小値を見つけることができます。おそらく、少し<em>あまりにも</em>単純な関数を示してようです！一般関数Cは多くの変数を持つ複雑な関数であってもよく、それは通常、グラフを目視して最小値を見つけることはできません。
+
+<!-- Okay, let's suppose we're trying to minimize some function, $C(v)$.
 This could be any real-valued function of many variables, $v = v_1,
 v_2, \ldots$.  Note that I've replaced the $w$ and $b$ notation by $v$
 to emphasize that this could be any function - we're not
@@ -1658,7 +1661,17 @@ of course, for the function plotted above, we can eyeball the graph
 and find the minimum.  In that sense, I've perhaps shown slightly
 <em>too</em> simple a function! A general function, $C$, may be a
 complicated function of many variables, and it won't usually be
-possible to just eyeball the graph to find the minimum.</p><p>One way of attacking the problem is to use calculus to try to find the
+possible to just eyeball the graph to find the minimum. -->
+</p><p>
+問題を攻略する一つの方法は、分析的に最小値を見つけることを試みるために計算を使用することです。
+私たちは、導関数を計算し、$C$が極値である場所を見つけるためにそれらを使用して試みることができます。
+運が良ければ、$C$が１つか少しの変数をとる関数であれば、うまく動くかもしれません。
+しかし、それは、より多くの変数を持つ関数だった時、悪夢に変わります。
+そして、ニューラルネットワークのためにしばしば<em>はるかに</em>多くの変数がほしいのです。
+- 最大のニューラルネットワークは、非常に複雑な方法で十億の重みとバイアスに依存するコスト関数を持っています。
+Using calculus to minimize that just won't work!
+
+<!-- One way of attacking the problem is to use calculus to try to find the
 minimum analytically.  We could compute derivatives and then try using
 them to find places where $C$ is an extremum.  With some luck that
 might work when $C$ is a function of just one or a few variables.  But
@@ -1666,7 +1679,10 @@ it'll turn into a nightmare when we have many more variables.  And for
 neural networks we'll often want <em>far</em> more variables - the
 biggest neural networks have cost functions which depend on billions
 of weights and biases in an extremely complicated way.  Using calculus
-to minimize that just won't work!</p><p>(After asserting that we'll gain insight by imagining $C$ as a
+to minimize that just won't work! -->
+</p><p>
+
+(After asserting that we'll gain insight by imagining $C$ as a
 function of just two variables, I've turned around twice in two
 paragraphs and said, "hey, but what if it's a function of many more
 than two variables?"  Sorry about that.  Please believe me when I say
@@ -1675,7 +1691,11 @@ variables.  It just happens that sometimes that picture breaks down,
 and the last two paragraphs were dealing with such breakdowns.  Good
 thinking about mathematics often involves juggling multiple intuitive
 pictures, learning when it's appropriate to use each picture, and when
-it's not.)</p><p><a name="gradient_descent"></a></p><p>Okay, so calculus doesn't work.  Fortunately, there is a beautiful
+it's not.)
+
+</p><p><a name="gradient_descent"></a></p><p>
+計算は動作しません。幸いなことに、かなりうまく機能するアルゴリズムを提案し、美しいアナロジーがあります。
+Okay, so calculus doesn't work.  Fortunately, there is a beautiful
 analogy which suggests an algorithm which works pretty well.  We start
 by thinking of our function as a kind of a valley.  If you squint just
 a little at the plot above, that shouldn't be too hard.  And we
